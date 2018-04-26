@@ -8,7 +8,7 @@
                     <button class="btn btn-default" 
                         type="button"
                         v-on:click="onInputChange">
-                    Go!</button>
+                    GoGo!</button>
                 </span>
             </div><!-- /input-group -->
         </div><!-- /.col-lg-12 -->
