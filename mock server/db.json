@@ -1,0 +1,12 @@
+{
+  "getusers": [
+    { "id": 1, "name": "boss" },
+	{ "id": 2, "name": "boss1" },
+	{ "id": 3, "name": "boss2" },
+	{ "id": 4, "name": "boss3" }
+  ],
+  "getJobs": [
+    { "id": 1, "job": "London" },
+	{ "id": 2, "job": "Liverpool" }
+  ]
+}
