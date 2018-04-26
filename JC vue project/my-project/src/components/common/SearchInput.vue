@@ -5,7 +5,7 @@
                 <input type="text" class="form-control" :placeholder="placeHolder"
                     v-model="searchText">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" 
+                    <button class="btn btn-default"
                         type="button"
                         v-on:click="onInputChange">
                     GoGo!</button>
@@ -19,18 +19,16 @@
 export default {
   data() {
     return {
-      searchText: ""
+      searchText: '',
     };
   },
-  name: "SearchInput",
+  name: 'SearchInput',
   props: {
     placeHolder: String,
-    searchFunc: Function
+    searchFunc: Function,
   },
   methods: {
-    onInputChange: function() {
-      console.log(this.searchText);
-    }
-  }
+    onInputChange() {},
+  },
 };
 </script>

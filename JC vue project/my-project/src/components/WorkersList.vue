@@ -2,18 +2,18 @@
   <ul>
     <li v-for="worker in workers" :key="worker.id">
         {{ worker.name }}
-    </li> 
+    </li>
   </ul>
 </template>
 
 <script>
 export default {
-  name: "workres-list",
+  name: 'workres-list',
   props: {
     workers: {
       required: true,
-      type: Array
-    }
-  }
+      type: Array,
+    },
+  },
 };
 </script>

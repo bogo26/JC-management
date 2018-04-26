@@ -8,32 +8,40 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import SearchInput from "@/components/common/SearchInput.vue";
-import WorkersList from "@/components/WorkersList.vue";
+import SearchInput from '@/components/common/SearchInput.vue';
+import WorkersList from '@/components/WorkersList.vue';
+import api from '../services/dataService';
 
 export default {
   data() {
     return {
-      workers: [
-        { id: 1, name: "boss" },
-        { id: 2, name: "boss1" },
-        { id: 3, name: "boss2" },
-        { id: 4, name: "boss3" }
-      ]
+      workers: [],
+      loading: true,
     };
   },
-  name: "home",
+  name: 'home',
   components: {
     SearchInput,
-    WorkersList
-  }
+    WorkersList,
+  },
+  created() {
+    console.log('created');
+    this.loadWorkers();
+  },
+  methods: {
+    async loadWorkers() {
+      this.loading = true;
+      this.workers = await api.workers.get();
+      console.log('workers set', this.workers);
+      this.loading = false;
+    },
+  },
 };
 </script>
 
 <style>
-  .sidebar-sticky {
-    width: 300px;
-  }
+.sidebar-sticky {
+  width: 300px;
+}
 </style>
 

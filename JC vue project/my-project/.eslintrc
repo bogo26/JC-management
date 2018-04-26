@@ -2,6 +2,20 @@
   "root": true,
   "extends": [
     "plugin:vue/essential",
-    "@vue/prettier"
-  ]
+    "@vue/airbnb"
+  ],
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "function-paren-newline": "off",
+    "linebreak-style": 0
+  }
 }
