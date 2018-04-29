@@ -2,7 +2,7 @@
     <div clas="row">
         <div class="col-lg-12">
             <div class="input-group">
-                <input type="text" class="form-control" :placeholder="placeHolder"
+                <input type="search" class="form-control" :placeholder="placeHolder"
                     v-model="searchText">
                 <span class="input-group-btn">
                     <button class="btn btn-default"
@@ -28,7 +28,22 @@ export default {
     searchFunc: Function,
   },
   methods: {
-    onInputChange() {},
+    onInputChange() {
+      console.log('scrie');
+      this.$emit('onFilterChange', this.searchText);
+    },
+  },
+  watch: {
+    searchText(newText) {
+      this.$emit('onFilterChange', newText);
+    },
   },
 };
 </script>
+
+<style scoped>
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+}
+</style>
+
