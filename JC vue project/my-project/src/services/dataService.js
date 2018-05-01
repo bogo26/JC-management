@@ -14,10 +14,8 @@ export default {
   },
   jobs: {
     async get() {
-      const {
-        jobs,
-      } = await api.get(constants.API_GET_JOBS);
-      return jobs;
+      const { data } = await api.get(constants.API_GET_JOBS);
+      return data.jobs;
     },
   },
 };

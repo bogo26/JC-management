@@ -37,12 +37,14 @@ export default {
   },
   methods: {
     selectWorker(worker) {
-      this.workers.forEach((el) => {
-        /* eslint-disable no-param-reassign */
-        Vue.set(el, 'isActive', false);
-      });
-      Vue.set(worker, 'isActive', !worker.isActive);
-      // this.$emit('onFilterChange', this.searchText);
+      if (!worker.isActive) {
+        this.workers.forEach((el) => {
+          /* eslint-disable no-param-reassign */
+          Vue.set(el, 'isActive', false);
+        });
+        Vue.set(worker, 'isActive', true);
+        this.$emit('onSelectWorker', worker);
+      }
     },
   },
 };
