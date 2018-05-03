@@ -3,11 +3,11 @@
       <div class="row col-12 search-inputs">
         <div class="form-group col-3">
           <label for="entrytDate">Date:</label>
-          <input type="date" class="form-control" id="entrytDate">
+          <input v-model="entryDate" type="date" class="form-control" id="entrytDate">
         </div>
         <div class="form-group col-3">
           <label for="entryHours">Hours:</label>
-          <input type="number" class="form-control" id="entryHours">
+          <input v-model="entryHours" type="number" class="form-control" id="entryHours">
         </div>
         <div class="form-group col-2">
           <label for="entryHours">Wage:</label>
@@ -22,10 +22,14 @@
 
 <script>
 import { Money } from 'v-money';
+// import * as formaters from '@/utils/formaters.js';
+import formatDate from '../utils/formaters';
 
 export default {
   data() {
     return {
+      entryDate: formatDate(new Date()),
+      entryHours: 8,
       money: {
         decimal: '.',
         thousands: ',',
