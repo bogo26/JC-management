@@ -23,7 +23,7 @@
 <script>
 import { Money } from 'v-money';
 // import * as formaters from '@/utils/formaters.js';
-import formatDate from '../utils/formaters';
+import { formatDate } from '../utils/formaters';
 
 export default {
   data() {

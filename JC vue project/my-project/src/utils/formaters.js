@@ -1,4 +1,4 @@
-export default function formatDate(date) {
+export function formatDate(date) {
   const d = new Date(date);
   let month = `${d.getMonth() + 1}`;
   let day = `${d.getDate()}`;
@@ -9,3 +9,29 @@ export default function formatDate(date) {
 
   return [year, month, day].join('-');
 }
+
+export function formatWagesList(wages, jobsList) {
+  console.log('wages>> ', wages);
+  const formattedWages = wages.map((wage) => {
+    const jobForId = (id) => {
+      const foundJob = jobsList.find((job) => job.id === id);
+      return foundJob ? foundJob.location : '-';
+    };
+
+    const calcDayTotal = () => {
+      const dayTotal = Number.parseFloat(wage.hours, 10) * Number.parseFloat(wage.wage, 10);
+      return Number.parseFloat(dayTotal).toFixed(2);
+    };
+
+    return {
+      workDate: new Date(wage.workDate).toLocaleDateString(),
+      site: jobForId(wage.idJob),
+      hours: wage.hours,
+      wage: wage.wage,
+      dayTotal: calcDayTotal(),
+      details: wage.details,
+    };
+  });
+  return formattedWages;
+}
+

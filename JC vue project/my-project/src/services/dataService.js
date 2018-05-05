@@ -18,4 +18,10 @@ export default {
       return data.jobs;
     },
   },
+  wages: {
+    async get(workerId) {
+      const { data } = await api.get(`${constants.API_GET_WAGES}?idWorker=${workerId}`);
+      return data;
+    },
+  },
 };

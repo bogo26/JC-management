@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     onInputChange() {
-      console.log('scrie');
       this.$emit('onFilterChange', this.searchText);
     },
   },

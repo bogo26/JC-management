@@ -53,7 +53,6 @@ export default {
       this.searchFilter = newFilter;
     },
     selectWorker(worker) {
-      console.log('>>> ', worker);
       this.selectedWorker = worker;
     },
   },

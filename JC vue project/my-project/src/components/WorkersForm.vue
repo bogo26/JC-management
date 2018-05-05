@@ -36,22 +36,32 @@
       <InsertEntry v-if="showInsertEntry" v-bind:wage="parseFloat(selectedWorker.wage)"/>
       <b-button v-else @click="onShowInsertEntry" variant="success">Insert Entry</b-button>
     </div>
+
+    <!-- table history -->
+    <div class="row wages-table">
+      <WagesTable v-bind:wagesList="wagesList"/>
+    </div>
   </div>
 </template>
 
 <script>
 import InsertEntry from '@/components/InsertEntry.vue';
+import WagesTable from '@/components/WagesTable.vue';
+import api from '../services/dataService';
+import { formatWagesList } from '../utils/formaters';
 
 export default {
   data() {
     return {
       selectedJob: null,
       showInsertEntry: false,
+      wagesList: [],
     };
   },
   name: 'workers-form',
   components: {
     InsertEntry,
+    WagesTable,
   },
   props: {
     selectedWorker: {
@@ -63,9 +73,21 @@ export default {
       type: Array,
     },
   },
+  watch: {
+    // eslint-disable-next-line
+    selectedWorker: function() {
+      this.loadWages(this.selectedWorker.id);
+    },
+  },
   methods: {
     onShowInsertEntry() {
       this.showInsertEntry = true;
+    },
+    async loadWages(workerId) {
+      this.loadingWages = true;
+      const response = await api.wages.get(workerId);
+      this.wagesList = formatWagesList(response, this.jobs);
+      this.loadingWages = false;
     },
   },
 };
@@ -94,5 +116,10 @@ div.row {
 .insert-entry {
   padding-top: 40px;
   padding-left: 18px;
+}
+.wages-table {
+  padding-top: 40px;
+  padding-left: 18px;
+  padding-right: 18px;
 }
 </style>
