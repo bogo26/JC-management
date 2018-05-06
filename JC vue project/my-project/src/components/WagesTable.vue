@@ -2,12 +2,12 @@
   <table class="table table-sm table-hover">
     <thead class="thead-dark">
       <tr>
-        <th scope="col-2">Date</th>
-        <th scope="col-3">Site</th>
-        <th scope="col-1">Hours</th>
-        <th scope="col-1">Wage</th>
-        <th scope="col-1">Day Total</th>
-        <th scope="col-4">Details</th>
+        <th style="width: 100px">Date</th>
+        <th style="width: 400px">Site</th>
+        <th style="width: 100px">Hours</th>
+        <th style="width: 100px">Wage</th>
+        <th style="width: 100px">Day Total</th>
+        <th >Details</th>
       </tr>
     </thead>
     <tbody>

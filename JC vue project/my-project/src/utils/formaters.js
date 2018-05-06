@@ -1,5 +1,7 @@
-export function formatDate(date) {
+export function formatDate(date, daysOffset = 0) {
   const d = new Date(date);
+  d.setDate(d.getDate() + daysOffset);
+
   let month = `${d.getMonth() + 1}`;
   let day = `${d.getDate()}`;
   const year = d.getFullYear();

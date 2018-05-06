@@ -11,11 +11,11 @@
       <div class="row col-12 search-inputs">
         <div class="form-group col-3">
           <label for="workerStartDate">Start Date:</label>
-          <input type="date" class="form-control" id="workerStartDate">
+          <input v-model="startDate" type="date" class="form-control" id="workerStartDate">
         </div>
         <div class="form-group col-3">
           <label for="workerEndDate">End Date:</label>
-          <input type="date" class="form-control" id="workerEndDate">
+          <input v-model="endDate" type="date" class="form-control" id="workerEndDate">
         </div>
         <div class="col-3">
           <label for="workerJob">Select site</label>
@@ -26,7 +26,7 @@
           </b-form-select>
         </div>
         <div class="col-2 generate-btn">
-          <b-button variant="success">Generate list</b-button>
+          <b-button @click="onGenerateList" variant="success">Generate list</b-button>
         </div>
       </div>
     </div>
@@ -48,11 +48,13 @@
 import InsertEntry from '@/components/InsertEntry.vue';
 import WagesTable from '@/components/WagesTable.vue';
 import api from '../services/dataService';
-import { formatWagesList } from '../utils/formaters';
+import { formatDate, formatWagesList } from '../utils/formaters';
 
 export default {
   data() {
     return {
+      startDate: formatDate(new Date(), -14),
+      endDate: formatDate(new Date()),
       selectedJob: null,
       showInsertEntry: false,
       wagesList: [],
@@ -76,16 +78,26 @@ export default {
   watch: {
     // eslint-disable-next-line
     selectedWorker: function() {
-      this.loadWages(this.selectedWorker.id);
+      this.loadWages(this.selectedWorker.id, this.selectedJob, this.startDate, this.endDate);
+      this.clearFilters();
     },
   },
   methods: {
+    clearFilters() {
+      this.startDate = formatDate(new Date(), -14);
+      this.endDate = formatDate(new Date());
+      this.selectedJob = null;
+      this.showInsertEntry = false;
+    },
+    onGenerateList() {
+      this.loadWages(this.selectedWorker.id, this.selectedJob, this.startDate, this.endDate);
+    },
     onShowInsertEntry() {
       this.showInsertEntry = true;
     },
-    async loadWages(workerId) {
+    async loadWages(workerId, jobId, startDate, endDate) {
       this.loadingWages = true;
-      const response = await api.wages.get(workerId);
+      const response = await api.wages.get(workerId, jobId, startDate, endDate);
       this.wagesList = formatWagesList(response, this.jobs);
       this.loadingWages = false;
     },
