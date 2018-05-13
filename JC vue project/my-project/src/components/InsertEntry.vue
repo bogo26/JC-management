@@ -5,7 +5,7 @@
           <label for="entrytDate">Date:</label>
           <input v-model="entryDate" type="date" class="form-control" id="entrytDate">
         </div>
-        <div class="form-group col-3">
+        <div class="form-group col-2">
           <label for="entryHours">Hours:</label>
           <input v-model="entryHours" type="number" class="form-control" id="entryHours">
         </div>
@@ -13,8 +13,12 @@
           <label for="entryHours">Wage:</label>
           <Money v-model="wage" v-bind="money" id="entryHours"/>
         </div>
+        <div class="form-group col-3">
+          <label for="entryHours">Details:</label>
+          <input v-model="entryDetails" type="text" class="form-control" id="entryDetails">
+        </div>
         <div class="col-2 insert-btn">
-          <b-button variant="success">Insert Entry</b-button>
+          <b-button @click="onInsertEntry" variant="success">Insert Entry</b-button>
         </div>
       </div>
     </div>
@@ -30,6 +34,7 @@ export default {
     return {
       entryDate: formatDate(new Date()),
       entryHours: 8,
+      entryDetails: '',
       money: {
         decimal: '.',
         thousands: ',',
@@ -48,6 +53,17 @@ export default {
     wage: {
       required: true,
       type: Number,
+    },
+  },
+  methods: {
+    onInsertEntry() {
+      this.$emit(
+        'onInsertEntry',
+        this.entryDate,
+        this.entryHours,
+        this.wage,
+        this.entryDetails,
+      );
     },
   },
 };

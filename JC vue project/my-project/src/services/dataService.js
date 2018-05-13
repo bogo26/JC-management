@@ -35,5 +35,15 @@ export default {
       );
       return data.wages;
     },
+    set(workerId, jobId, date, wage, hours, details) {
+      return api.post(`${config.API_SET_WAGES}`, {
+        idJob: jobId,
+        idWorker: workerId,
+        workDate: date,
+        wage,
+        hours,
+        details,
+      });
+    },
   },
 };

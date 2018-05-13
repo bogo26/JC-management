@@ -13,7 +13,6 @@ export function formatDate(date, daysOffset = 0) {
 }
 
 export function formatWagesList(wages, jobsList) {
-  console.log('wages>> ', wages);
   const formattedWages = wages.map((wage) => {
     const jobForId = (id) => {
       const foundJob = jobsList.find((job) => job.id === id);

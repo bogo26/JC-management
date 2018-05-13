@@ -33,8 +33,14 @@
 
     <!-- insert entry -->
     <div class="row insert-entry">
-      <InsertEntry v-if="showInsertEntry" v-bind:wage="parseFloat(selectedWorker.wage)"/>
-      <b-button v-else @click="onShowInsertEntry" variant="success">Insert Entry</b-button>
+      <InsertEntry v-if="showInsertEntry"
+        @onInsertEntry="onInsertEntry"
+        v-bind:wage="parseFloat(selectedWorker.wage)"/>
+      <b-button v-else
+        @click="onShowInsertEntry"
+        variant="success">
+        Insert Entry
+      </b-button>
     </div>
 
     <!-- table history -->
@@ -78,7 +84,12 @@ export default {
   watch: {
     // eslint-disable-next-line
     selectedWorker: function() {
-      this.loadWages(this.selectedWorker.id, this.selectedJob, this.startDate, this.endDate);
+      this.loadWages(
+        this.selectedWorker.id,
+        this.selectedJob,
+        this.startDate,
+        this.endDate,
+      );
       this.clearFilters();
     },
   },
@@ -90,7 +101,12 @@ export default {
       this.showInsertEntry = false;
     },
     onGenerateList() {
-      this.loadWages(this.selectedWorker.id, this.selectedJob, this.startDate, this.endDate);
+      this.loadWages(
+        this.selectedWorker.id,
+        this.selectedJob,
+        this.startDate,
+        this.endDate,
+      );
     },
     onShowInsertEntry() {
       this.showInsertEntry = true;
@@ -100,6 +116,26 @@ export default {
       const response = await api.wages.get(workerId, jobId, startDate, endDate);
       this.wagesList = formatWagesList(response, this.jobs);
       this.loadingWages = false;
+    },
+    onInsertEntry(date, hours, wage, details) {
+      console.log('>>>');
+      this.loadingWages = true;
+      api.wages
+        .set(
+          this.selectedWorker.id,
+          this.selectedJob,
+          date,
+          wage,
+          hours,
+          details,
+        )
+        .then(() => {
+          this.loadingWages = false;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          window.alert('Falied to add entry', error);
+        });
     },
   },
 };
