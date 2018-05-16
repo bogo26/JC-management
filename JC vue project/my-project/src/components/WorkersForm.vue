@@ -31,10 +31,11 @@
       </div>
     </div>
 
-    <!-- insert entry -->
+    <!-- Insert entry -->
     <div class="row insert-entry">
       <InsertEntry v-if="showInsertEntry"
         @onInsertEntry="onInsertEntry"
+        v-bind:jobs="jobs"
         v-bind:wage="parseFloat(selectedWorker.wage)"/>
       <b-button v-else
         @click="onShowInsertEntry"
@@ -117,13 +118,13 @@ export default {
       this.wagesList = formatWagesList(response, this.jobs);
       this.loadingWages = false;
     },
-    onInsertEntry(date, hours, wage, details) {
+    onInsertEntry(date, jobId, hours, wage, details) {
       console.log('>>>');
       this.loadingWages = true;
       api.wages
         .set(
           this.selectedWorker.id,
-          this.selectedJob,
+          jobId,
           date,
           wage,
           hours,
