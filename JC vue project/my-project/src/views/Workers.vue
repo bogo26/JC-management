@@ -3,8 +3,8 @@
     <div class="sidebar">
       <SearchInput placeHolder="Search a worker"
         @onFilterChange="updateFilters"/>
-      <WorkersList v-bind:workers="workers" v-bind:searchFilter="searchFilter"
-        @onSelectWorker="selectWorker"/>
+      <SearchList v-bind:items="workers" v-bind:searchFilter="searchFilter"
+        @onSelectItem="selectWorker"/>
     </div>
     <div class="content">
       <WorkersForm v-bind:selectedWorker="selectedWorker" v-bind:jobs="jobs"/>
@@ -14,7 +14,7 @@
 
 <script>
 import SearchInput from '@/components/common/SearchInput.vue';
-import WorkersList from '@/components/WorkersList.vue';
+import SearchList from '@/components/SearchList.vue';
 import WorkersForm from '@/components/WorkersForm.vue';
 import api from '../services/dataService';
 
@@ -31,7 +31,7 @@ export default {
   name: 'workers',
   components: {
     SearchInput,
-    WorkersList,
+    SearchList,
     WorkersForm,
   },
   created() {
@@ -53,6 +53,7 @@ export default {
       this.searchFilter = newFilter;
     },
     selectWorker(worker) {
+      console.log('slected worker>> ', worker);
       this.selectedWorker = worker;
     },
   },
@@ -60,16 +61,6 @@ export default {
 </script>
 
 <style>
-.sidebar {
-  width: 330px;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 0;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
-}
 .content {
   padding-left: 330px;
 }

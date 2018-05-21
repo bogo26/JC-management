@@ -4,12 +4,6 @@
             <div class="input-group">
                 <input type="search" class="form-control" :placeholder="placeHolder"
                     v-model="searchText">
-                <span class="input-group-btn">
-                    <button class="btn btn-default"
-                        type="button"
-                        v-on:click="onInputChange">
-                    GoGo!</button>
-                </span>
             </div><!-- /input-group -->
         </div><!-- /.col-lg-12 -->
     </div>
@@ -26,11 +20,6 @@ export default {
   props: {
     placeHolder: String,
     searchFunc: Function,
-  },
-  methods: {
-    onInputChange() {
-      this.$emit('onFilterChange', this.searchText);
-    },
   },
   watch: {
     searchText(newText) {

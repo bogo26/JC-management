@@ -37,4 +37,14 @@ export default {};
     }
   }
 }
+.sidebar {
+  width: 330px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
 </style>
