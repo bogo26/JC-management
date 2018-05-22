@@ -7,7 +7,7 @@
         @onSelectItem="selectJob"/>
     </div>
     <div class="content">
-      <JobsForm v-bind:selectedJob="selectedJob" v-bind:jobs="jobs"/>
+      <JobsForm v-bind:selectedJob="selectedJob" v-bind:workers="workers"/>
     </div>
   </div>
 </template>
@@ -58,5 +58,4 @@ export default {
     },
   },
 };
-
 </script>
