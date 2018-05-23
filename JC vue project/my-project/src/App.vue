@@ -47,4 +47,20 @@ export default {};
   padding: 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
+.form-header {
+  padding: 30px 0px 8px 36px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.form-sub-header {
+  padding-left: 36px;
+  font-size: 16px;
+}
+.section {
+  padding-top: 40px;
+  padding-left: 18px;
+}
+.generate-btn {
+  padding-top: 30px;
+}
 </style>

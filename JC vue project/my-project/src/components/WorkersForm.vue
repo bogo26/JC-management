@@ -1,14 +1,15 @@
 <template>
   <div v-if="selectedWorker.id">
     <div class="row">
-      <span class="worker-header">{{ selectedWorker.id }} - {{ selectedWorker.name }} </span>
+      <span class="form-header">{{ selectedWorker.id }} - {{ selectedWorker.name }} </span>
     </div>
     <div class="row">
-      <span class="worker-wage">Hourly wage: £{{ selectedWorker.wage }} </span>
+      <span class="form-sub-header">Hourly wage: £{{ selectedWorker.wage }} </span>
     </div>
+
     <!-- generate filters -->
     <div class="row">
-      <div class="row col-12 search-inputs">
+      <div class="row col-12 section">
         <div class="form-group col-3">
           <label for="workerStartDate">Start Date:</label>
           <input v-model="startDate" type="date" class="form-control" id="workerStartDate">
@@ -32,10 +33,10 @@
     </div>
 
     <!-- Insert entry -->
-    <div class="row insert-entry">
+    <div class="row section">
       <InsertEntry v-if="showInsertEntry"
         @onInsertEntry="onInsertEntry"
-        v-bind:jobs="jobs"
+        v-bind:selectList="jobs"
         v-bind:wage="parseFloat(selectedWorker.wage)"/>
       <b-button v-else
         @click="onShowInsertEntry"
@@ -143,24 +144,8 @@ export default {
 </script>
 
 <style scoped>
-.worker-header {
-  padding: 30px 0px 8px 36px;
-  font-size: 24px;
-  font-weight: bold;
-}
-.worker-wage {
-  padding-left: 36px;
-  font-size: 16px;
-}
-.search-inputs {
-  padding-top: 40px;
-  padding-left: 18px;
-}
 div.row {
   margin: 0px;
-}
-.generate-btn {
-  padding-top: 30px;
 }
 .insert-entry {
   padding-top: 40px;

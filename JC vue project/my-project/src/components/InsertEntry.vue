@@ -6,14 +6,28 @@
           <input v-model="entryDate" type="date" class="form-control" id="entrytDate">
         </div>
 
-        <!-- Select site -->
-        <div class="col-3">
-          <label for="workerJob">Select site</label>
-          <b-form-select v-model="entrySelectedJob">
-            <option v-for="job in jobs" :value="job.id" :key="job.id">
-              {{ job.location }}
-            </option>
-          </b-form-select>
+        <div v-if="isWorker">
+          <!-- Select site -->
+          <div class="col-3">
+            <label>Select site</label>
+            <b-form-select v-model="entrySelectedFromList">
+              <option v-for="job in selectList" :value="job.id" :key="job.id">
+                {{ job.location }}
+              </option>
+            </b-form-select>
+          </div>
+        </div>
+
+        <div v-else>
+          <!-- Select worker -->
+          <div class="col-3">
+            <label>Select worker</label>
+            <b-form-select v-model="entrySelectedFromList">
+              <option v-for="worker in selectList" :value="worker.id" :key="worker.id">
+                {{ worker.location }}
+              </option>
+            </b-form-select>
+          </div>
         </div>
 
         <!-- Hours -->
@@ -51,7 +65,7 @@ export default {
   data() {
     return {
       entryDate: formatDate(new Date()),
-      entrySelectedJob: '',
+      entrySelectedFromList: '',
       entryHours: 8,
       entryWage: this.wage,
       entryDetails: '',
@@ -70,7 +84,7 @@ export default {
     Money,
   },
   props: {
-    jobs: {
+    selectList: {
       required: true,
       type: Array,
     },
@@ -84,7 +98,7 @@ export default {
       this.$emit(
         'onInsertEntry',
         this.entryDate,
-        this.entrySelectedJob,
+        this.entrySelectedFromList,
         this.entryHours,
         this.wage,
         this.entryDetails,
