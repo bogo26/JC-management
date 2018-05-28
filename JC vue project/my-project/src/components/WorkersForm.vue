@@ -37,7 +37,8 @@
       <InsertEntry v-if="showInsertEntry"
         @onInsertEntry="onInsertEntry"
         v-bind:selectList="jobs"
-        v-bind:wage="parseFloat(selectedWorker.wage)"/>
+        v-bind:wage="parseFloat(selectedWorker.wage)"
+        v-bind:isWorker="true"/>
       <b-button v-else
         @click="onShowInsertEntry"
         variant="success">
@@ -120,7 +121,6 @@ export default {
       this.loadingWages = false;
     },
     onInsertEntry(date, jobId, hours, wage, details) {
-      console.log('>>>');
       this.loadingWages = true;
       api.wages
         .set(

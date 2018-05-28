@@ -6,30 +6,13 @@
           <input v-model="entryDate" type="date" class="form-control" id="entrytDate">
         </div>
 
-        <div v-if="isWorker">
-          <!-- Select site -->
-          <div class="col-3">
-            <label>Select site</label>
-            <b-form-select v-model="entrySelectedFromList">
-              <option v-for="job in selectList" :value="job.id" :key="job.id">
-                {{ job.location }}
-              </option>
-            </b-form-select>
-          </div>
+        <!-- Select site -->
+        <div class="col-3">
+          <label>Select {{workerOrJob}}</label>
+          <ModelSelect v-model="entrySelectedFromList" :options="selectList">
+          </ModelSelect>
         </div>
-
-        <div v-else>
-          <!-- Select worker -->
-          <div class="col-3">
-            <label>Select worker</label>
-            <b-form-select v-model="entrySelectedFromList">
-              <option v-for="worker in selectList" :value="worker.id" :key="worker.id">
-                {{ worker.location }}
-              </option>
-            </b-form-select>
-          </div>
-        </div>
-
+      
         <!-- Hours -->
         <div class="form-group col-1">
           <label for="entryHours">Hours:</label>
@@ -58,7 +41,7 @@
 
 <script>
 import { Money } from 'v-money';
-// import * as formaters from '@/utils/formaters.js';
+import { ModelSelect } from 'vue-search-select'
 import { formatDate } from '../utils/formaters';
 
 export default {
@@ -82,6 +65,7 @@ export default {
   name: 'insert-entry',
   components: {
     Money,
+    ModelSelect,
   },
   props: {
     selectList: {
@@ -91,6 +75,10 @@ export default {
     wage: {
       required: true,
       type: Number,
+    },
+    isWorker: {
+      required: true,
+      type: Boolean,
     },
   },
   methods: {
@@ -105,6 +93,11 @@ export default {
       );
     },
   },
+  computed: {
+    workerOrJob () {
+      return this.isWorker ? "job" : "worker" ;
+    }
+  }
 };
 </script>
 

@@ -20,11 +20,8 @@
         </div>
         <div class="col-3">
           <label >Select worker</label>
-          <b-form-select v-model="selectedWorker">
-            <option v-for="worker in workers" :value="worker.id" :key="worker.id">
-              {{ worker.name }}
-            </option>
-          </b-form-select>
+          <ModelSelect v-model="selectedWorker" :options="selectFormatedWorkersList">
+          </ModelSelect>
         </div>
         <div class="col-2 generate-btn">
           <b-button @click="onGenerateList" variant="success">Generate list</b-button>
@@ -36,8 +33,9 @@
     <div class="row section">
       <InsertEntry v-if="showInsertEntry"
         @onInsertEntry="onInsertEntry"
-        v-bind:selectList="workers"
-        v-bind:wage="0"/>
+        v-bind:selectList="selectFormatedWorkersList"
+        v-bind:wage="0"
+        v-bind:isWorker="false"/>
       <b-button v-else
         @click="onShowInsertEntry"
         variant="success">
@@ -51,6 +49,7 @@
 <script>
 import InsertEntry from '@/components/InsertEntry.vue';
 import WagesTable from '@/components/WagesTable.vue';
+import { ModelSelect } from 'vue-search-select'
 
 import api from '../services/dataService';
 import { formatDate, formatWagesList } from '../utils/formaters';
@@ -69,6 +68,7 @@ export default {
   components: {
     InsertEntry,
     WagesTable,
+    ModelSelect,
   },
   props: {
     selectedJob: {
@@ -108,6 +108,16 @@ export default {
       return null;
     },
   },
+  computed: {
+    selectFormatedWorkersList () {
+      return this.workers.map(worker => {
+        return {
+          value: worker.id,
+          text: worker.name,
+        }
+      })
+    }
+  }
 };
 </script>
 

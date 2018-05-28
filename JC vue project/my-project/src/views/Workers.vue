@@ -53,16 +53,8 @@ export default {
       this.searchFilter = newFilter;
     },
     selectWorker(worker) {
-      console.log('slected worker>> ', worker);
       this.selectedWorker = worker;
     },
   },
 };
 </script>
-
-<style>
-.content {
-  padding-left: 330px;
-}
-</style>
-

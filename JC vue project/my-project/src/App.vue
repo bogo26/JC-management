@@ -37,6 +37,9 @@ export default {};
     }
   }
 }
+.content {
+  padding-left: 330px;
+}
 .sidebar {
   width: 330px;
   position: fixed;
