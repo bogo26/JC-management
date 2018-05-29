@@ -43,6 +43,10 @@
       </b-button>
     </div>
 
+    <!-- table history -->
+    <div class="row wages-table">
+      <WagesTable v-bind:wagesList="wagesList" v-bind:isWorkerForm="false"/>
+    </div>
   </div>
 </template>
 
@@ -52,7 +56,7 @@ import WagesTable from '@/components/WagesTable.vue';
 import { ModelSelect } from 'vue-search-select'
 
 import api from '../services/dataService';
-import { formatDate, formatWagesList } from '../utils/formaters';
+import { formatDate, formatJobsWagesList } from '../utils/formaters';
 
 export default {
   data() {
@@ -80,6 +84,18 @@ export default {
       type: Array,
     },
   },
+  watch: {
+    // eslint-disable-next-line
+    selectedJob: function() {
+      this.loadWages(
+        this.selectedJob.id,
+        this.selectedWorker,
+        this.startDate,
+        this.endDate,
+      );
+      this.clearFilters();
+    },
+  },
   methods: {
     clearFilters() {
       this.startDate = formatDate(new Date(), -14);
@@ -101,7 +117,7 @@ export default {
     async loadWages(workerId, jobId, startDate, endDate) {
       this.loadingWages = true;
       const response = await api.wages.get(workerId, jobId, startDate, endDate);
-      this.wagesList = formatWagesList(response, this.jobs);
+      this.wagesList = formatJobsWagesList(response, this.workers);
       this.loadingWages = false;
     },
     onInsertEntry() {

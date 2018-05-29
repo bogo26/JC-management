@@ -66,4 +66,16 @@ export default {};
 .generate-btn {
   padding-top: 30px;
 }
+div.row {
+  margin: 0px;
+}
+.insert-entry {
+  padding-top: 40px;
+  padding-left: 18px;
+}
+.wages-table {
+  padding-top: 40px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
 </style>

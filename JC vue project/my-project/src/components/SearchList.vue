@@ -38,7 +38,6 @@ export default {
   methods: {
     selectItem(item) {
       if (!item.isActive) {
-        console.log('selected item>> ', item);
         this.items.forEach((el) => {
           /* eslint-disable no-param-reassign */
           Vue.set(el, 'isActive', false);

@@ -3,7 +3,7 @@
     <thead class="thead-dark">
       <tr>
         <th style="width: 100px">Date</th>
-        <th style="width: 400px">Site</th>
+        <th style="width: 400px">{{ pirmaryType }}</th>
         <th style="width: 100px">Hours</th>
         <th style="width: 100px">Wage</th>
         <th style="width: 100px">Day Total</th>
@@ -11,7 +11,8 @@
       </tr>
     </thead>
     <tbody>
-      <TableRow v-for="wageEntry in wagesList" :key="wageEntry.idWage" v-bind:wage="wageEntry"/>
+      <TableRow v-for="wageEntry in wagesList" 
+        :wage="wageEntry" :key="wageEntry.idWage" />
     </tbody>
   </table>
 </template>
@@ -29,10 +30,18 @@ export default {
       required: true,
       type: Array,
     },
+    isWorkerForm: {
+      required: true,
+      type: Boolean,
+    }
+  },
+  computed: {
+    pirmaryType() {
+      return this.isWorkerForm ? 'Site' : 'Worker';
+    },
   },
 };
 </script>
 
 <style>
-
 </style>

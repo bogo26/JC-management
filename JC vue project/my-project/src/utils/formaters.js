@@ -12,7 +12,7 @@ export function formatDate(date, daysOffset = 0) {
   return [year, month, day].join('-');
 }
 
-export function formatWagesList(wages, jobsList) {
+export function formatWorkersWagesList(wages, jobsList) {
   const formattedWages = wages.map((wage) => {
     const jobForId = (id) => {
       const foundJob = jobsList.find((job) => job.id === id);
@@ -26,7 +26,7 @@ export function formatWagesList(wages, jobsList) {
 
     return {
       workDate: new Date(wage.workDate).toLocaleDateString(),
-      site: jobForId(wage.idJob),
+      primary: jobForId(wage.idJob),
       hours: wage.hours,
       wage: wage.wage,
       dayTotal: calcDayTotal(),
@@ -34,5 +34,29 @@ export function formatWagesList(wages, jobsList) {
     };
   });
   return formattedWages;
+}
+
+export function formatJobsWagesList(jobs, workersList) {
+  const formattedJobs = jobs.map((wage) => {
+    const workerForId = (id) => {
+      const foundWorker = workersList.find((worker) => worker.id === id);
+      return foundWorker ? foundWorker.name : '-';
+    };
+
+    const calcDayTotal = () => {
+      const dayTotal = Number.parseFloat(wage.hours, 10) * Number.parseFloat(wage.wage, 10);
+      return Number.parseFloat(dayTotal).toFixed(2);
+    };
+
+    return {
+      workDate: new Date(wage.workDate).toLocaleDateString(),
+      primary: workerForId(wage.idWorker),
+      hours: wage.hours,
+      wage: wage.wage,
+      dayTotal: calcDayTotal(),
+      details: wage.details,
+    };
+  });
+  return formattedJobs;
 }
 

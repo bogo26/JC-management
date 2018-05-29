@@ -12,7 +12,7 @@
           <ModelSelect v-model="entrySelectedFromList" :options="selectList">
           </ModelSelect>
         </div>
-      
+        
         <!-- Hours -->
         <div class="form-group col-1">
           <label for="entryHours">Hours:</label>
@@ -41,7 +41,7 @@
 
 <script>
 import { Money } from 'v-money';
-import { ModelSelect } from 'vue-search-select'
+import { ModelSelect } from 'vue-search-select';
 import { formatDate } from '../utils/formaters';
 
 export default {
@@ -94,10 +94,10 @@ export default {
     },
   },
   computed: {
-    workerOrJob () {
-      return this.isWorker ? "job" : "worker" ;
-    }
-  }
+    workerOrJob() {
+      return this.isWorker ? 'job' : 'worker';
+    },
+  },
 };
 </script>
 

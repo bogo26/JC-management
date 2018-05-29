@@ -1,7 +1,7 @@
 <template>
   <tr >
         <td>{{ wage.workDate }}</td>
-        <td>{{ wage.site }}</td>
+        <td>{{ wage.primary }}</td>
         <td>{{ wage.hours }}</td>
         <td>{{ wage.wage }}</td>
         <td>{{ wage.dayTotal }}</td>

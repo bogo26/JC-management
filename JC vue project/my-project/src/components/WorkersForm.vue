@@ -48,7 +48,7 @@
 
     <!-- table history -->
     <div class="row wages-table">
-      <WagesTable v-bind:wagesList="wagesList"/>
+      <WagesTable v-bind:wagesList="wagesList" v-bind:isWorkerForm="true"/>
     </div>
   </div>
 </template>
@@ -57,7 +57,7 @@
 import InsertEntry from '@/components/InsertEntry.vue';
 import WagesTable from '@/components/WagesTable.vue';
 import api from '../services/dataService';
-import { formatDate, formatWagesList } from '../utils/formaters';
+import { formatDate, formatWorkersWagesList } from '../utils/formaters';
 
 export default {
   data() {
@@ -117,7 +117,7 @@ export default {
     async loadWages(workerId, jobId, startDate, endDate) {
       this.loadingWages = true;
       const response = await api.wages.get(workerId, jobId, startDate, endDate);
-      this.wagesList = formatWagesList(response, this.jobs);
+      this.wagesList = formatWorkersWagesList(response, this.jobs);
       this.loadingWages = false;
     },
     onInsertEntry(date, jobId, hours, wage, details) {
