@@ -78,4 +78,14 @@ div.row {
   padding-left: 18px;
   padding-right: 18px;
 }
+
+.search-input{
+  padding-top: 15px;
+  padding-bottom: 12px;
+}
+
+.add-button{
+  width: 100%;
+  height: 50px;
+}
 </style>

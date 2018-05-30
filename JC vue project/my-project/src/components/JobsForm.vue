@@ -125,15 +125,15 @@ export default {
     },
   },
   computed: {
-    selectFormatedWorkersList () {
+    selectFormatedWorkersList() {
       return this.workers.map(worker => {
         return {
           value: worker.id,
           text: worker.name,
-        }
-      })
-    }
-  }
+        };
+      });
+    },
+  },
 };
 </script>
 

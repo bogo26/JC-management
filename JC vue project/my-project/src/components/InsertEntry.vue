@@ -12,7 +12,7 @@
           <ModelSelect v-model="entrySelectedFromList" :options="selectList">
           </ModelSelect>
         </div>
-        
+
         <!-- Hours -->
         <div class="form-group col-1">
           <label for="entryHours">Hours:</label>

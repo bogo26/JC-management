@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .scrollable {
-  height: calc(100% - 40px);
+  height: calc(100% - 117px);
   overflow: overlay;
 }
 </style>

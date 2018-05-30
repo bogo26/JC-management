@@ -36,7 +36,7 @@
     <div class="row section">
       <InsertEntry v-if="showInsertEntry"
         @onInsertEntry="onInsertEntry"
-        v-bind:selectList="jobs"
+        v-bind:selectList="selectFormatedJobsList"
         v-bind:wage="parseFloat(selectedWorker.wage)"
         v-bind:isWorker="true"/>
       <b-button v-else
@@ -138,6 +138,16 @@ export default {
           // eslint-disable-next-line
           window.alert('Falied to add entry', error);
         });
+    },
+  },
+  computed: {
+    selectFormatedJobsList() {
+      return this.jobs.map(job => {
+        return {
+          value: job.id,
+          text: job.location,
+        }
+      })
     },
   },
 };

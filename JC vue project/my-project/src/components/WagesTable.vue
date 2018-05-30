@@ -11,8 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <TableRow v-for="wageEntry in wagesList" 
-        :wage="wageEntry" :key="wageEntry.idWage" />
+      <TableRow v-for="wageEntry in wagesList" :wage="wageEntry" :key="wageEntry.idWage"/>
     </tbody>
   </table>
 </template>
@@ -33,7 +32,7 @@ export default {
     isWorkerForm: {
       required: true,
       type: Boolean,
-    }
+    },
   },
   computed: {
     pirmaryType() {

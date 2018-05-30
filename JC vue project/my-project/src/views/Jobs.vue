@@ -1,10 +1,11 @@
 <template>
   <div class="home">
     <div class="sidebar">
-      <SearchInput placeHolder="Search a job"
+      <SearchInput class="search-input" placeHolder="Search a job"
         @onFilterChange="updateFilters"/>
       <SearchList v-bind:items="jobs" v-bind:searchFilter="searchFilter"
         @onSelectItem="selectJob"/>
+      <b-button class="add-button">Add Job</b-button>
     </div>
     <div class="content">
       <JobsForm v-bind:selectedJob="selectedJob" v-bind:workers="workers"/>
