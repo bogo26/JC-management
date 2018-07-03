@@ -88,7 +88,7 @@ export default {
         this.entryDate,
         this.entrySelectedFromList,
         this.entryHours,
-        this.wage,
+        this.entryWage,
         this.entryDetails,
       );
     },

@@ -137,6 +137,7 @@ export default {
         .catch((error) => {
           // eslint-disable-next-line
           window.alert('Falied to add entry', error);
+          this.loadingWages = false;
         });
     },
   },

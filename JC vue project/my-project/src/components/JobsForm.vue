@@ -120,8 +120,24 @@ export default {
       this.wagesList = formatJobsWagesList(response, this.workers);
       this.loadingWages = false;
     },
-    onInsertEntry() {
-      return null;
+    onInsertEntry(date, workerId, hours, wage, details) {
+      api.wages
+        .set(
+          workerId,
+          this.selectedJob.id,
+          date,
+          wage,
+          hours,
+          details,
+        )
+        .then(() => {
+          this.loadingWages = false;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          window.alert('Falied to add entry', error);
+          this.loadingWages = false;
+        });
     },
   },
   computed: {
