@@ -1,27 +1,30 @@
 <template>
-  <div v-if="selectedJob.id">
+  <div v-if="selectedWorker.id">
     <div class="row">
-      <span class="form-header">{{ selectedJob.id }} - {{ selectedJob.location }} </span>
+      <span class="form-header">{{ selectedWorker.id }} - {{ selectedWorker.name }} </span>
     </div>
     <div class="row">
-      <span class="form-sub-header">Expected income: £{{ selectedJob.income }} </span>
+      <span class="form-sub-header">Hourly wage: £{{ selectedWorker.wage }} </span>
     </div>
 
     <!-- generate filters -->
     <div class="row">
       <div class="row col-12 section">
         <div class="form-group col-3">
-          <label for="jobStartDate">Start Date:</label>
-          <input v-model="startDate" type="date" class="form-control" id="jobStartDate">
+          <label for="workerStartDate">Start Date:</label>
+          <input v-model="startDate" type="date" class="form-control" id="workerStartDate">
         </div>
         <div class="form-group col-3">
-          <label for="jobEndDate">End Date:</label>
-          <input v-model="endDate" type="date" class="form-control" id="jobEndDate">
+          <label for="workerEndDate">End Date:</label>
+          <input v-model="endDate" type="date" class="form-control" id="workerEndDate">
         </div>
         <div class="col-3">
-          <label >Select worker</label>
-          <ModelSelect v-model="selectedWorker" :options="selectFormatedWorkersList">
-          </ModelSelect>
+          <label for="workerJob">Select site</label>
+          <b-form-select v-model="selectedJob">
+            <option v-for="job in jobs" :value="job.id" :key="job.id">
+              {{ job.location }}
+            </option>
+          </b-form-select>
         </div>
         <div class="col-2 generate-btn">
           <b-button @click="onGenerateList" variant="success">Generate list</b-button>
@@ -33,9 +36,9 @@
     <div class="row section">
       <InsertEntry v-if="showInsertEntry"
         @onInsertEntry="onInsertEntry"
-        v-bind:selectList="selectFormatedWorkersList"
-        v-bind:wage="0"
-        v-bind:isWorker="false"/>
+        v-bind:selectList="selectFormatedJobsList"
+        v-bind:wage="parseFloat(selectedWorker.wage)"
+        v-bind:isWorker="true"/>
       <b-button v-else
         @click="onShowInsertEntry"
         variant="success">
@@ -43,9 +46,13 @@
       </b-button>
     </div>
 
+    <div class="row section">
+      Total wage selected: {{totalSum}}
+    </div> 
+
     <!-- table history -->
     <div class="row wages-table">
-      <WagesTable v-bind:wagesList="wagesList" v-bind:isWorkerForm="false"/>
+      <WagesTable v-bind:wagesList="wagesList" v-bind:isWorkerForm="true"/>
     </div>
   </div>
 </template>
@@ -53,43 +60,41 @@
 <script>
 import InsertEntry from '@/components/InsertEntry.vue';
 import WagesTable from '@/components/WagesTable.vue';
-import { ModelSelect } from 'vue-search-select'
-
 import api from '../services/dataService';
-import { formatDate, formatJobsWagesList } from '../utils/formaters';
+import { formatDate, formatWorkersWagesList } from '../utils/formaters';
 
 export default {
   data() {
     return {
       startDate: formatDate(new Date(), -14),
       endDate: formatDate(new Date()),
-      selectedWorker: null,
+      selectedJob: null,
       showInsertEntry: false,
       wagesList: [],
+      totalSum: 0,
     };
   },
-  name: 'jobs-form',
+  name: 'workers-form',
   components: {
     InsertEntry,
     WagesTable,
-    ModelSelect,
   },
   props: {
-    selectedJob: {
+    selectedWorker: {
       required: false,
       type: Object,
     },
-    workers: {
+    jobs: {
       required: true,
       type: Array,
     },
   },
   watch: {
     // eslint-disable-next-line
-    selectedJob: function() {
+    selectedWorker: function() {
       this.loadWages(
-        this.selectedJob.id,
-        this.selectedWorker,
+        this.selectedWorker.id,
+        this.selectedJob,
         this.startDate,
         this.endDate,
       );
@@ -100,7 +105,7 @@ export default {
     clearFilters() {
       this.startDate = formatDate(new Date(), -14);
       this.endDate = formatDate(new Date());
-      this.selectedWorker = null;
+      this.selectedJob = null;
       this.showInsertEntry = false;
     },
     onGenerateList() {
@@ -115,16 +120,20 @@ export default {
       this.showInsertEntry = true;
     },
     async loadWages(workerId, jobId, startDate, endDate) {
+      let sum = 0;
       this.loadingWages = true;
       const response = await api.wages.get(workerId, jobId, startDate, endDate);
-      this.wagesList = formatJobsWagesList(response, this.workers);
+      this.wagesList = formatWorkersWagesList(response, this.jobs);
+      this.wagesList.forEach(wage => sum += Number(wage.dayTotal));
+      this.totalSum = Number(sum).toFixed(2);
       this.loadingWages = false;
     },
-    onInsertEntry(date, workerId, hours, wage, details) {
+    onInsertEntry(date, jobId, hours, wage, details) {
+      this.loadingWages = true;
       api.wages
         .set(
-          workerId,
-          this.selectedJob.id,
+          this.selectedWorker.id,
+          jobId,
           date,
           wage,
           hours,
@@ -141,19 +150,29 @@ export default {
     },
   },
   computed: {
-    selectFormatedWorkersList() {
-      return this.workers.map(worker => {
+    selectFormatedJobsList() {
+      return this.jobs.map(job => {
         return {
-          value: worker.id,
-          text: worker.name,
-        };
-      });
+          value: job.id,
+          text: job.location,
+        }
+      })
     },
   },
 };
 </script>
 
-<style>
-
+<style scoped>
+div.row {
+  margin: 0px;
+}
+.insert-entry {
+  padding-top: 40px;
+  padding-left: 18px;
+}
+.wages-table {
+  padding-top: 40px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
 </style>
-

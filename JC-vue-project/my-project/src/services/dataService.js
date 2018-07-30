@@ -22,16 +22,37 @@ export default {
   },
   wages: {
     async get(workerId, jobId, startDate, endDate) {
+      let wId;
+      let jId;
+      if (!workerId) {
+        wId = '';
+      } else {
+        wId = workerId;
+      }
+
+      if (!jobId) {
+        jId = '';
+      } else {
+        jId = jobId;
+      }
+
       if (window.jcApp.isDev) {
-        const { data } = await api.get(
-          `${config.API_GET_WAGES}?idWorker=${workerId}`,
-        );
-        return data;
+        let response;
+        if (jId) {
+          response = await api.get(
+            `${config.API_GET_WAGES}?idJob=${jId}`,
+          );
+        } else {
+          response = await api.get(
+            `${config.API_GET_WAGES}?idWorker=${wId}`,
+          );
+        }
+        return response.data;
       }
       const { data } = await api.get(
         `${
           config.API_GET_WAGES
-        }?idWorker=${workerId}&idJob=${jobId}$startDate=${startDate}&endDate=${endDate}`,
+        }?idWorker=${wId}&idJob=${jId}&startDate=${startDate}&endDate=${endDate}`,
       );
       return data.wages;
     },

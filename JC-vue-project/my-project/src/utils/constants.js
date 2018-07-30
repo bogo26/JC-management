@@ -5,14 +5,14 @@ export default function getConfig() {
       API_GET_USERS: '/getusers',
       API_GET_JOBS: '/getjobs',
       API_GET_WAGES: '/wages',
-      API_SET_WAGES: '/setWages.php',
+      API_SET_WAGES: '/setWage.php',
     };
   }
   return {
-    API_HOME: 'http://jcdrylining.co.uk',
+    API_HOME: 'http://209.97.135.240',
     API_GET_USERS: '/db.php',
     API_GET_JOBS: '/getJobs.php',
     API_GET_WAGES: '/getWagesForWorkerWithDate.php',
-    API_SET_WAGES: '/setWages.php',
+    API_SET_WAGES: '/setWage.php',
   };
 }
