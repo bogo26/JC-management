@@ -44,7 +44,7 @@
     </div>
 
     <div class="row section">
-      Total: {{totalSum}}
+      Total wage selected: {{totalSum}}
     </div> 
 
     <!-- table history -->
@@ -139,6 +139,7 @@ export default {
           details,
         )
         .then(() => {
+          this.onGenerateList();
           this.loadingWages = false;
         })
         .catch((error) => {
@@ -157,13 +158,6 @@ export default {
         };
       });
     },
-    // totalSum() {
-    //   let total = 0
-    //   total = this.wagesList.forEach(wage => 
-    //     total += Number(wage.dayTotal)
-    //   );
-    //   return total;
-    // },
   },
 };
 </script>

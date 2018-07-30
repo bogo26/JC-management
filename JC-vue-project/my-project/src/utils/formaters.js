@@ -55,8 +55,10 @@ export function formatJobsWagesList(jobs, workersList) {
       wage: wage.wage,
       dayTotal: calcDayTotal(),
       details: wage.details,
+      wageId: Number(wage.idWage),
     };
   });
+  formattedJobs.sort((a, b) => a.wageId < b.wageId) ? 1 : ((b.wageId > a.wageId) ? -1 : 0);
   return formattedJobs;
 }
 

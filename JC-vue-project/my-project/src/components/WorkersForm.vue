@@ -140,6 +140,7 @@ export default {
           details,
         )
         .then(() => {
+          this.onGenerateList();
           this.loadingWages = false;
         })
         .catch((error) => {
