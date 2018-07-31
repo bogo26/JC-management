@@ -6,6 +6,7 @@ export default function getConfig() {
       API_GET_JOBS: '/getjobs',
       API_GET_WAGES: '/wages',
       API_SET_WAGES: '/setWage.php',
+      API_DELETE_WAGES: '/deleteWage.php',
     };
   }
   return {
@@ -14,5 +15,6 @@ export default function getConfig() {
     API_GET_JOBS: '/getJobs.php',
     API_GET_WAGES: '/getWagesForWorkerWithDate.php',
     API_SET_WAGES: '/setWage.php',
+    API_DELETE_WAGES: '/deleteWage.php',
   };
 }

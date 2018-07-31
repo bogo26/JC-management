@@ -66,5 +66,10 @@ export default {
         details,
       });
     },
+    delete(id) {
+      return api.post(`${config.API_DELETE_WAGES}`, {
+        id,
+      });
+    },
   },
 };

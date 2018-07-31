@@ -8,6 +8,7 @@
         <th style="width: 100px">Wage</th>
         <th style="width: 100px">Day Total</th>
         <th >Details</th>
+        <th style="width: 100px">X</th>
       </tr>
     </thead>
     <tbody>

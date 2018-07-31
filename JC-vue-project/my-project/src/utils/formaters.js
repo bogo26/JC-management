@@ -31,8 +31,10 @@ export function formatWorkersWagesList(wages, jobsList) {
       wage: wage.wage,
       dayTotal: calcDayTotal(),
       details: wage.details,
+      idWage: wage.idWage,
     };
   });
+  formattedWages.sort((a, b) => new Date(b.workDate) - new Date(a.workDate));
   return formattedWages;
 }
 
@@ -55,10 +57,10 @@ export function formatJobsWagesList(jobs, workersList) {
       wage: wage.wage,
       dayTotal: calcDayTotal(),
       details: wage.details,
-      wageId: Number(wage.idWage),
+      idWage: Number(wage.idWage),
     };
   });
-  formattedJobs.sort((a, b) => a.wageId < b.wageId) ? 1 : ((b.wageId > a.wageId) ? -1 : 0);
+  formattedJobs.sort((a, b) => new Date(b.workDate) - new Date(a.workDate));
   return formattedJobs;
 }
 
