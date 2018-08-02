@@ -6,7 +6,7 @@
       <SearchList v-bind:items="workers" v-bind:searchFilter="searchFilter"
         @onSelectItem="selectWorker"/>
       <b-button 
-        @click="showAddWorkerModal"
+        @click="showAddModal"
         class="add-button">
         Add Worker
       </b-button>
@@ -22,16 +22,18 @@
       title="Add a new Worker"
       @ok="handleSubmitAddWorker">
     <div class="d-block text-center">
-      <!-- Job name -->
+      <!-- Worker name -->
       <div class="form-group col-12">
         <label for="addWorkerName">Name</label>
         <input v-model="addWorkerModel.name" type="text" class="form-control" id="addWorkerName">
       </div>
-       <!-- Expected income -->
+
+      <!-- Worker wage -->
       <div class="form-group col-12">
           <label for="addWorkerWage">Wage</label>
           <Money v-model="addWorkerModel.wage" v-bind="money" id="addWorkerWage"/>
       </div>
+
     </div>
     </b-modal>
   </div>
@@ -41,9 +43,9 @@
 import SearchInput from '@/components/common/SearchInput.vue';
 import SearchList from '@/components/SearchList.vue';
 import WorkersForm from '@/components/WorkersForm.vue';
+
 import { Money } from 'v-money';
 
-import { formatDate } from '../utils/formaters';
 import api from '../services/dataService';
 
 export default {
@@ -73,6 +75,7 @@ export default {
     SearchInput,
     SearchList,
     WorkersForm,
+    Money,
   },
   created() {
     this.loadWorkers();
@@ -108,6 +111,7 @@ export default {
         api.workers
           .set(this.addWorkerModel.name, this.addWorkerModel.wage)
           .then(() => {
+            this.loadWorkers();
             this.hideAddModal();
           })
           .catch((error) => {
