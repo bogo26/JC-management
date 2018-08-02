@@ -5,11 +5,35 @@
         @onFilterChange="updateFilters"/>
       <SearchList v-bind:items="workers" v-bind:searchFilter="searchFilter"
         @onSelectItem="selectWorker"/>
-      <b-button class="add-button">Add Worker</b-button>
+      <b-button 
+        @click="showAddWorkerModal"
+        class="add-button">
+        Add Worker
+      </b-button>
     </div>
     <div class="content">
       <WorkersForm v-bind:selectedWorker="selectedWorker" v-bind:jobs="jobs"/>
     </div>
+
+    <!-- Modal de add worker -->
+    <b-modal
+      ref="addWorkerMoadlRef"
+      centered
+      title="Add a new Worker"
+      @ok="handleSubmitAddWorker">
+    <div class="d-block text-center">
+      <!-- Job name -->
+      <div class="form-group col-12">
+        <label for="addWorkerName">Name</label>
+        <input v-model="addWorkerModel.name" type="text" class="form-control" id="addWorkerName">
+      </div>
+       <!-- Expected income -->
+      <div class="form-group col-12">
+          <label for="addWorkerWage">Wage</label>
+          <Money v-model="addWorkerModel.wage" v-bind="money" id="addWorkerWage"/>
+      </div>
+    </div>
+    </b-modal>
   </div>
 </template>
 
@@ -17,6 +41,9 @@
 import SearchInput from '@/components/common/SearchInput.vue';
 import SearchList from '@/components/SearchList.vue';
 import WorkersForm from '@/components/WorkersForm.vue';
+import { Money } from 'v-money';
+
+import { formatDate } from '../utils/formaters';
 import api from '../services/dataService';
 
 export default {
@@ -27,6 +54,18 @@ export default {
       loading: true,
       searchFilter: '',
       selectedWorker: {},
+      addWorkerModel: {
+        name: '',
+        wage: 0,
+      },
+      money: {
+        decimal: '.',
+        thousands: ',',
+        prefix: '£',
+        suffix: '',
+        precision: 2,
+        masked: false,
+      },
     };
   },
   name: 'workers',
@@ -55,6 +94,29 @@ export default {
     },
     selectWorker(worker) {
       this.selectedWorker = worker;
+    },
+    showAddModal() {
+      this.$refs.addWorkerMoadlRef.show();
+    },
+    hideAddModal() {
+      this.$refs.addWorkerMoadlRef.hide();
+    },
+    handleSubmitAddWorker(evt) {
+      // Prevent modal from closing
+      evt.preventDefault();
+      if (!!this.addWorkerModel.name && !!this.addWorkerModel.wage) {
+        api.workers
+          .set(this.addWorkerModel.name, this.addWorkerModel.wage)
+          .then(() => {
+            this.hideAddModal();
+          })
+          .catch((error) => {
+            // eslint-disable-next-line
+            window.alert('Falied to add job', error);
+          });
+      } else {
+        alert('Missing info');
+      }
     },
   },
 };

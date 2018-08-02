@@ -13,9 +13,9 @@
     <div class="content">
       <JobsForm v-bind:selectedJob="selectedJob" v-bind:workers="workers"/>
     </div>
-    <!-- Modal de add worker -->
+    <!-- Modal de add Job -->
     <b-modal
-      ref="addWorkerMoadlRef"
+      ref="addJobMoadlRef"
       centered
       title="Add a new Job"
       @ok="handleSubmitAdd">
@@ -111,10 +111,10 @@ export default {
       this.selectedJob = job;
     },
     showAddModal() {
-      this.$refs.addWorkerMoadlRef.show();
+      this.$refs.addJobMoadlRef.show();
     },
     hideAddModal() {
-      this.$refs.addWorkerMoadlRef.hide();
+      this.$refs.addJobMoadlRef.hide();
     },
     handleSubmitAdd(evt) {
       // Prevent modal from closing
@@ -125,8 +125,8 @@ export default {
         !!this.addJobModel.startDate &&
         !!this.addJobModel.endDate
       ) {
-
         api.jobs.set(this.addJobModel).then(()=> {
+          this.loadJobs();
           this.hideAddModal();
         }).
         catch(error => {

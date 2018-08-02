@@ -13,16 +13,22 @@ export default {
       const { data } = await api.get(config.API_GET_USERS);
       return data.users;
     },
+    async set(name, wage) {
+      return api.post(`${config.API_SET_WORKER}`, {
+        name,
+        wage,
+      });
+    },
   },
   jobs: {
     async get() {
       const { data } = await api.get(config.API_GET_JOBS);
       return data.jobs;
     },
-    async set(data) {
-      return api.post(`${config.API_SET_WAGES}`, {
+    set(data) {
+      return api.post(`${config.API_SET_JOB}`, {
         location: data.name,
-        income: data.expectedIncome,
+        income: String(data.expectedIncome),
         startDate: data.startDate,
         endDate: data.endDate,
       });
