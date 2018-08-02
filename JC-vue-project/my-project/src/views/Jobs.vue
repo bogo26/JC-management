@@ -5,11 +5,46 @@
         @onFilterChange="updateFilters"/>
       <SearchList v-bind:items="jobs" v-bind:searchFilter="searchFilter"
         @onSelectItem="selectJob"/>
-      <b-button class="add-button">Add Job</b-button>
+      <b-button class="add-button"
+        @click="showAddModal">
+        Add Job
+      </b-button>
     </div>
     <div class="content">
       <JobsForm v-bind:selectedJob="selectedJob" v-bind:workers="workers"/>
     </div>
+    <!-- Modal de add worker -->
+    <b-modal
+      ref="addWorkerMoadlRef"
+      centered
+      title="Add a new Job"
+      @ok="handleSubmitAdd">
+    <div class="d-block text-center">
+      <!-- Job name -->
+      <div class="form-group col-12">
+        <label for="entryDetails">Name</label>
+        <input v-model="addJobModel.name" type="text" class="form-control" id="entryDetails">
+      </div>
+
+      <!-- Expected income -->
+      <div class="form-group col-12">
+          <label for="entryWage">Expected income</label>
+          <Money v-model="addJobModel.expectedIncome" v-bind="money" id="entryWage"/>
+      </div>
+
+      <!-- Satrating date -->
+      <div class="form-group col-12">
+        <label for="addJobStartDate">Start Date:</label>
+        <input v-model="addJobModel.startDate" type="date" class="form-control" id="addJobStartDate">
+      </div>
+
+      <!-- Ending date -->
+      <div class="form-group col-12">
+        <label for="jobEndDate">End Date:</label>
+        <input v-model="addJobModel.endDate" type="date" class="form-control" id="jobEndDate">
+      </div>
+    </div>
+    </b-modal>
   </div>
 </template>
 
@@ -18,6 +53,9 @@ import SearchInput from '@/components/common/SearchInput.vue';
 import SearchList from '@/components/SearchList.vue';
 import JobsForm from '@/components/JobsForm.vue';
 
+import { Money } from 'v-money';
+
+import { formatDate } from '../utils/formaters';
 import api from '../services/dataService';
 
 export default {
@@ -28,6 +66,20 @@ export default {
       loading: true,
       searchFilter: '',
       selectedJob: {},
+      addJobModel: {
+        name: '',
+        expectedIncome: 0,
+        startDate: formatDate(new Date()),
+        endDate: formatDate(new Date()),
+      },
+      money: {
+        decimal: '.',
+        thousands: ',',
+        prefix: '£',
+        suffix: '',
+        precision: 2,
+        masked: false,
+      },
     };
   },
   name: 'jobs',
@@ -35,6 +87,7 @@ export default {
     SearchInput,
     SearchList,
     JobsForm,
+    Money,
   },
   created() {
     this.loadWorkers();
@@ -56,6 +109,34 @@ export default {
     },
     selectJob(job) {
       this.selectedJob = job;
+    },
+    showAddModal() {
+      this.$refs.addWorkerMoadlRef.show();
+    },
+    hideAddModal() {
+      this.$refs.addWorkerMoadlRef.hide();
+    },
+    handleSubmitAdd(evt) {
+      // Prevent modal from closing
+      evt.preventDefault();
+      if (
+        !!this.addJobModel.name &&
+        !!this.addJobModel.expectedIncome &&
+        !!this.addJobModel.startDate &&
+        !!this.addJobModel.endDate
+      ) {
+
+        api.jobs.set(this.addJobModel).then(()=> {
+          this.hideAddModal();
+        }).
+        catch(error => {
+          // eslint-disable-next-line
+          window.alert('Falied to add job', error);
+        });
+
+      } else {
+        alert('Missing info');
+      }
     },
   },
 };

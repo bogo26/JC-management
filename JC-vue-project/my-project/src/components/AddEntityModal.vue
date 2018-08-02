@@ -22,11 +22,11 @@ export default {
   methods: {
     handleOk (evt) {
       // Prevent modal from closing
-      evt.preventDefault()
+      evt.preventDefault();
       if (!this.name) {
-        alert('Please enter your name')
+        alert('Please enter your name');
       } else {
-        this.handleSubmit()
+        this.handleSubmit();
       }
     },
   }

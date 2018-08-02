@@ -19,6 +19,14 @@ export default {
       const { data } = await api.get(config.API_GET_JOBS);
       return data.jobs;
     },
+    async set(data) {
+      return api.post(`${config.API_SET_WAGES}`, {
+        location: data.name,
+        income: data.expectedIncome,
+        startDate: data.startDate,
+        endDate: data.endDate,
+      });
+    },
   },
   wages: {
     async get(workerId, jobId, startDate, endDate) {
