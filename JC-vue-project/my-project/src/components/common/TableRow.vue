@@ -27,11 +27,11 @@ export default {
     },
   },
   methods: {
-    deleteEntry(id) {
-      console.log(id);
+    async deleteEntry(id) {
       var r = confirm('Are you sure you want to delete this entry?');
       if (r === true) {
-        api.wages.delete(id);
+        await api.wages.delete(id);
+        this.$el.style.backgroundColor = 'red';
       } 
     },
   },
