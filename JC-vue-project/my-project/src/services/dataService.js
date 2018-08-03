@@ -86,4 +86,14 @@ export default {
       });
     },
   },
+  salaryReport: {
+    async get(startDate, endDate) {
+      const { data } = await api.get(
+        `${
+          config.API_GET_SALARY_REPORT
+        }?startDate=${startDate}&endDate=${endDate}`,
+      );
+      return data.results;
+    },
+  },
 };

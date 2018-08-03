@@ -155,6 +155,7 @@ export default {
         return {
           value: worker.id,
           text: worker.name,
+          wage: worker.wage,
         };
       });
     },

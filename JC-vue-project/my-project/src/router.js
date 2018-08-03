@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Workers from './views/Workers.vue';
 import Jobs from './views/Jobs.vue';
+import Wages from './views/Wages.vue';
 
 Vue.use(Router);
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/jobs',
       name: 'jobs',
       component: Jobs,
+    },
+    {
+      path: '/wages',
+      name: 'wages',
+      component: Wages,
     },
   ],
 });

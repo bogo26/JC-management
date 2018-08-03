@@ -93,6 +93,17 @@ export default {
       );
     },
   },
+  watch: {
+    entrySelectedFromList() {
+      let wage;
+      if (!this.isWorker) {
+        wage = this.selectList.find((worker) => worker.value === this.entrySelectedFromList)
+        if (wage) {
+          this.entryWage = wage.wage;
+        }
+      }
+    },
+  },
   computed: {
     workerOrJob() {
       return this.isWorker ? 'job' : 'worker';
