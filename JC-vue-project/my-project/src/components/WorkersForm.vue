@@ -64,7 +64,8 @@
       ref="editWorkerMoadlRef"
       centered
       title="Edit worker"
-      @ok="handleSubmitEditWorker">
+      @ok="handleSubmitEditWorker"
+      @hidden="hideEditModal">
     <div class="d-block text-center">
       <!-- Worker name -->
       <div class="form-group col-12">
@@ -110,6 +111,7 @@ export default {
         wage: this.selectedWorker.wage,
       },
       money: getMoneyConfig(),
+      initialWorker: {},
     };
   },
   name: 'workers-form',
@@ -182,21 +184,31 @@ export default {
         });
     },
     showEditModal() {
+      this.initialWorker = {
+        name: this.selectedWorker.name,
+        wage: this.selectedWorker.wage,
+      };
       this.$refs.editWorkerMoadlRef.show();
     },
     hideEditModal() {
+      // revert changes if the update was not submitted
+      this.selectedWorker.name = this.initialWorker.name;
+      this.selectedWorker.wage = this.initialWorker.wage;
       this.$refs.editWorkerMoadlRef.hide();
     },
     async handleSubmitEditWorker(evt) {
       evt.preventDefault();
 
-      if (!!this.editWorkerModel.name && !!this.editWorkerModel.wage) {
+      if (!!this.selectedWorker.name && !!this.selectedWorker.wage) {
         try {
           await api.workers.update(
             this.selectedWorker.id,
-            this.editWorkerModel.name,
-            this.editWorkerModel.wage,
+            this.selectedWorker.name,
+            this.selectedWorker.wage,
           );
+          // confirm changes after submit
+          this.initialWorker.name = this.selectedWorker.name;
+          this.initialWorker.wage = this.selectedWorker.wage;
         } catch (err) {
           alert('Update failed', err);
           return;
@@ -205,6 +217,7 @@ export default {
       } else {
         alert('Missing data');
       }
+
     },
     async handleDeleteWorker() {
       var r = confirm('Are you sure you want to delete this worker?');
