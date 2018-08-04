@@ -2,9 +2,13 @@
   <div v-if="selectedWorker.id">
     <div class="row">
       <span class="form-header">{{ selectedWorker.id }} - {{ selectedWorker.name }} </span>
-    </div>
+      </div>
     <div class="row">
       <span class="form-sub-header">Hourly wage: £{{ selectedWorker.wage }} </span>
+    </div>
+    <div class="row mt-3">
+      <b-button class="edit-btn" @click="showEditModal" variant="success">Edit</b-button>
+      <b-button class="ml-2" @click="handleDeleteWorker" variant="danger">X</b-button>
     </div>
 
     <!-- generate filters -->
@@ -54,14 +58,43 @@
     <div class="row wages-table">
       <WagesTable v-bind:wagesList="wagesList" v-bind:isWorkerForm="true"/>
     </div>
+
+    <!-- Modal - edit worker -->
+    <b-modal
+      ref="editWorkerMoadlRef"
+      centered
+      title="Edit worker"
+      @ok="handleSubmitEditWorker">
+    <div class="d-block text-center">
+      <!-- Worker name -->
+      <div class="form-group col-12">
+        <label for="editWorkerName">Name</label>
+        <input v-model="editWorkerModel.name" type="text" class="form-control" id="editWorkerName">
+      </div>
+
+      <!-- Worker wage -->
+      <div class="form-group col-12">
+          <label for="editWorkerWage">Wage</label>
+          <Money v-model="editWorkerModel.wage" v-bind="money" id="editWorkerWage"/>
+      </div>
+
+    </div>
+    </b-modal>
+
   </div>
 </template>
 
 <script>
 import InsertEntry from '@/components/InsertEntry.vue';
 import WagesTable from '@/components/WagesTable.vue';
+import { Money } from 'v-money';
+
 import api from '../services/dataService';
-import { formatDate, formatWorkersWagesList } from '../utils/formaters';
+import {
+  formatDate,
+  formatWorkersWagesList,
+  getMoneyConfig,
+} from '../utils/formaters';
 
 export default {
   data() {
@@ -72,12 +105,18 @@ export default {
       showInsertEntry: false,
       wagesList: [],
       totalSum: 0,
+      editWorkerModel: {
+        name: this.selectedWorker.name,
+        wage: this.selectedWorker.wage,
+      },
+      money: getMoneyConfig(),
     };
   },
   name: 'workers-form',
   components: {
     InsertEntry,
     WagesTable,
+    Money,
   },
   props: {
     selectedWorker: {
@@ -124,21 +163,14 @@ export default {
       this.loadingWages = true;
       const response = await api.wages.get(workerId, jobId, startDate, endDate);
       this.wagesList = formatWorkersWagesList(response, this.jobs);
-      this.wagesList.forEach(wage => sum += Number(wage.dayTotal));
+      this.wagesList.forEach((wage) => (sum += Number(wage.dayTotal)));
       this.totalSum = Number(sum).toFixed(2);
       this.loadingWages = false;
     },
     onInsertEntry(date, jobId, hours, wage, details) {
       this.loadingWages = true;
       api.wages
-        .set(
-          this.selectedWorker.id,
-          jobId,
-          date,
-          wage,
-          hours,
-          details,
-        )
+        .set(this.selectedWorker.id, jobId, date, wage, hours, details)
         .then(() => {
           this.onGenerateList();
           this.loadingWages = false;
@@ -149,15 +181,52 @@ export default {
           this.loadingWages = false;
         });
     },
+    showEditModal() {
+      this.$refs.editWorkerMoadlRef.show();
+    },
+    hideModal() {
+      this.$refs.editWorkerMoadlRef.hide();
+    },
+    async handleSubmitEditWorker(evt) {
+      evt.preventDefault();
+
+      if (!!this.editWorkerModel.name && !!this.editWorkerModel.wage) {
+        try {
+          await api.workers.update(
+            this.selectedWorker.id,
+            this.editWorkerModel.name,
+            this.editWorkerModel.wage,
+          );
+        } catch (err) {
+          alert('Update failed', err);
+          return;
+        }
+        this.hideEditModal();
+      } else {
+        alert('Missing data');
+      }
+    },
+    async handleDeleteWorker() {
+      var r = confirm('Are you sure you want to delete this worker?');
+      if (r === true) {
+        try {
+          await api.workers.delete(this.selectedWorker.id);
+        } catch (err) {
+          alert('Delete failed', err);
+          return;
+        }
+        location.reload();
+      }
+    },
   },
   computed: {
     selectFormatedJobsList() {
-      return this.jobs.map(job => {
+      return this.jobs.map((job) => {
         return {
           value: job.id,
           text: job.location,
-        }
-      })
+        };
+      });
     },
   },
 };

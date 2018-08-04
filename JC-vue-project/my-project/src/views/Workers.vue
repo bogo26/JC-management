@@ -15,7 +15,7 @@
       <WorkersForm v-bind:selectedWorker="selectedWorker" v-bind:jobs="jobs"/>
     </div>
 
-    <!-- Modal de add worker -->
+    <!-- Modal - add worker -->
     <b-modal
       ref="addWorkerMoadlRef"
       centered
@@ -47,7 +47,7 @@ import WorkersForm from '@/components/WorkersForm.vue';
 import { Money } from 'v-money';
 
 import api from '../services/dataService';
-
+import { getMoneyConfig } from '../utils/formaters.js';
 export default {
   data() {
     return {
@@ -60,14 +60,7 @@ export default {
         name: '',
         wage: 0,
       },
-      money: {
-        decimal: '.',
-        thousands: ',',
-        prefix: '£',
-        suffix: '',
-        precision: 2,
-        masked: false,
-      },
+      money: getMoneyConfig(),
     };
   },
   name: 'workers',

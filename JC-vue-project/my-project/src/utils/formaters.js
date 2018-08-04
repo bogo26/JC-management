@@ -64,3 +64,14 @@ export function formatJobsWagesList(jobs, workersList) {
   return formattedJobs;
 }
 
+export function getMoneyConfig() {
+  return {
+    decimal: '.',
+    thousands: ',',
+    prefix: '£',
+    suffix: '',
+    precision: 2,
+    masked: false,
+  };
+}
+

@@ -19,6 +19,16 @@ export default {
         wage,
       });
     },
+    delete(id) {
+      return api.post(`${config.API_DELETE_WORKER}`, {
+        id,
+      });
+    },
+    update(id, name, wage) {
+      return api.post(`${config.API_UPDATE_WORKER}`, {
+        id, name, wage,
+      });
+    },
   },
   jobs: {
     async get() {
@@ -31,6 +41,11 @@ export default {
         income: String(data.expectedIncome),
         startDate: data.startDate,
         endDate: data.endDate,
+      });
+    },
+    delete(id) {
+      return api.post(`${config.API_DELETE_JOB}`, {
+        id,
       });
     },
   },

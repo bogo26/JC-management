@@ -61,7 +61,7 @@ export default {};
   font-size: 16px;
 }
 .section {
-  padding-top: 40px;
+  padding-top: 24px;
   padding-left: 18px;
 }
 .generate-btn {
@@ -88,5 +88,9 @@ div.row {
 .add-button{
   width: 100%;
   height: 50px;
+}
+
+.edit-btn{
+  margin-left: 36px;
 }
 </style>
