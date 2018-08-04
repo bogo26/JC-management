@@ -69,13 +69,13 @@
       <!-- Worker name -->
       <div class="form-group col-12">
         <label for="editWorkerName">Name</label>
-        <input v-model="editWorkerModel.name" type="text" class="form-control" id="editWorkerName">
+        <input v-model="selectedWorker.name" type="text" class="form-control" id="editWorkerName">
       </div>
 
       <!-- Worker wage -->
       <div class="form-group col-12">
           <label for="editWorkerWage">Wage</label>
-          <Money v-model="editWorkerModel.wage" v-bind="money" id="editWorkerWage"/>
+          <Money v-model="selectedWorker.wage" v-bind="money" id="editWorkerWage"/>
       </div>
 
     </div>
@@ -184,7 +184,7 @@ export default {
     showEditModal() {
       this.$refs.editWorkerMoadlRef.show();
     },
-    hideModal() {
+    hideEditModal() {
       this.$refs.editWorkerMoadlRef.hide();
     },
     async handleSubmitEditWorker(evt) {
