@@ -87,11 +87,11 @@ export default {
     },
   },
   salaryReport: {
-    async get(startDate, endDate) {
+    async get(startDate, endDate, jobId) {
       const { data } = await api.get(
         `${
           config.API_GET_SALARY_REPORT
-        }?startDate=${startDate}&endDate=${endDate}`,
+        }?startDate=${startDate}&endDate=${endDate}&jobId=${jobId}`,
       );
       return data.results;
     },
