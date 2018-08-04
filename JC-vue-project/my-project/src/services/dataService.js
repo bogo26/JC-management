@@ -48,6 +48,11 @@ export default {
         id,
       });
     },
+    update(id, location, income, startDate, endDate) {
+      return api.post(`${config.API_UPDATE_JOB}`, {
+        id, location, income, startDate, endDate,
+      });
+    },
   },
   wages: {
     async get(workerId, jobId, startDate, endDate) {

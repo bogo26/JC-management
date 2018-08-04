@@ -61,7 +61,7 @@
 
     <!-- Modal - edit worker -->
     <b-modal
-      ref="editWorkerMoadlRef"
+      ref="editWorkerModalRef"
       centered
       title="Edit worker"
       @ok="handleSubmitEditWorker"
@@ -188,13 +188,13 @@ export default {
         name: this.selectedWorker.name,
         wage: this.selectedWorker.wage,
       };
-      this.$refs.editWorkerMoadlRef.show();
+      this.$refs.editWorkerModalRef.show();
     },
     hideEditModal() {
       // revert changes if the update was not submitted
       this.selectedWorker.name = this.initialWorker.name;
       this.selectedWorker.wage = this.initialWorker.wage;
-      this.$refs.editWorkerMoadlRef.hide();
+      this.$refs.editWorkerModalRef.hide();
     },
     async handleSubmitEditWorker(evt) {
       evt.preventDefault();
@@ -217,7 +217,6 @@ export default {
       } else {
         alert('Missing data');
       }
-
     },
     async handleDeleteWorker() {
       var r = confirm('Are you sure you want to delete this worker?');

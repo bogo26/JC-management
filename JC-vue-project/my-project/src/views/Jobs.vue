@@ -3,16 +3,20 @@
     <div class="sidebar">
       <SearchInput class="search-input" placeHolder="Search a job"
         @onFilterChange="updateFilters"/>
+
       <SearchList v-bind:items="jobs" v-bind:searchFilter="searchFilter"
         @onSelectItem="selectJob"/>
+
       <b-button class="add-button"
         @click="showAddModal">
         Add Job
       </b-button>
     </div>
+
     <div class="content">
       <JobsForm v-bind:selectedJob="selectedJob" v-bind:workers="workers"/>
     </div>
+
     <!-- Modal de add Job -->
     <b-modal
       ref="addJobMoadlRef"
@@ -26,12 +30,6 @@
         <input v-model="addJobModel.name" type="text" class="form-control" id="entryDetails">
       </div>
 
-      <!-- Expected income -->
-      <div class="form-group col-12">
-          <label for="entryWage">Expected income</label>
-          <Money v-model="addJobModel.expectedIncome" v-bind="money" id="entryWage"/>
-      </div>
-
       <!-- Satrating date -->
       <div class="form-group col-12">
         <label for="addJobStartDate">Start Date:</label>
@@ -43,6 +41,13 @@
         <label for="jobEndDate">End Date:</label>
         <input v-model="addJobModel.endDate" type="date" class="form-control" id="jobEndDate">
       </div>
+
+      <!-- Expected income -->
+      <div class="form-group col-12">
+          <label for="entryWage">Expected income</label>
+          <Money v-model="addJobModel.expectedIncome" v-bind="money" id="entryWage"/>
+      </div>
+
     </div>
     </b-modal>
   </div>
@@ -56,6 +61,7 @@ import JobsForm from '@/components/JobsForm.vue';
 import { Money } from 'v-money';
 
 import { formatDate } from '../utils/formaters';
+import { getMoneyConfig } from '../utils/formaters.js';
 import api from '../services/dataService';
 
 export default {
@@ -72,14 +78,7 @@ export default {
         startDate: formatDate(new Date()),
         endDate: formatDate(new Date()),
       },
-      money: {
-        decimal: '.',
-        thousands: ',',
-        prefix: '£',
-        suffix: '',
-        precision: 2,
-        masked: false,
-      },
+      money: getMoneyConfig(),
     };
   },
   name: 'jobs',
@@ -109,6 +108,7 @@ export default {
     },
     selectJob(job) {
       this.selectedJob = job;
+      this.selectedJob.income = Number(job.income);
     },
     showAddModal() {
       this.$refs.addJobMoadlRef.show();

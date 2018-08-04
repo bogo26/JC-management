@@ -63,7 +63,6 @@ export default {
     },
     async loadJobs() {
       let jobs = await api.jobs.get();
-      console.log();
       this.raportJobsList = jobs.map((job) => {
         return {
           value: job.id,

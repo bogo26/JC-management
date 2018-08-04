@@ -25,6 +25,7 @@ export default {
   },
   computed: {
     filteredItems() {
+      debugger; // eslint-disable-line
       if (this.searchFilter) {
         return this.items.filter(
           (item) =>
@@ -37,6 +38,7 @@ export default {
   },
   methods: {
     selectItem(item) {
+      debugger; // eslint-disable-line
       if (!item.isActive) {
         this.items.forEach((el) => {
           /* eslint-disable no-param-reassign */
