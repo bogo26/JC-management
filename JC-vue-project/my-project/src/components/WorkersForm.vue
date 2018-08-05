@@ -9,6 +9,7 @@
     <div class="row mt-3">
       <b-button class="edit-btn" @click="showEditModal" variant="success">Edit</b-button>
       <b-button class="ml-2" @click="handleDeleteWorker" variant="danger">X</b-button>
+      <b-button class="ml-2" @click="showUpdateWageModal" variant="success">Update wage</b-button>
     </div>
 
     <!-- generate filters -->
@@ -82,6 +83,27 @@
     </div>
     </b-modal>
 
+    <!-- Modal - update wage -->
+    <b-modal
+      ref="updateWageModalRef"
+      centered
+      title="Edit worker"
+      @ok="handleSubmitUpdateWage">
+    <div class="d-block text-center">
+      <!-- Starting date -->
+      <div class="form-group col-12">
+        <label for="updateWageStartingDate">Starting date</label>
+        <input v-model="updateWageModal.date" type="date" class="form-control" id="updateWageStartingDate">
+      </div>
+
+      <!-- Wage update -->
+      <div class="form-group col-12">
+          <label for="updateWageWage">Wage</label>
+          <Money v-model="updateWageModal.wage" v-bind="money" id="updateWageWage"/>
+      </div>
+
+    </div>
+    </b-modal>
   </div>
 </template>
 
@@ -112,6 +134,10 @@ export default {
       },
       money: getMoneyConfig(),
       initialWorker: {},
+      updateWageModal: {
+        date: formatDate(new Date()),
+        wage: 0,
+      },
     };
   },
   name: 'workers-form',
@@ -183,6 +209,7 @@ export default {
           this.loadingWages = false;
         });
     },
+    // edit worker methods
     showEditModal() {
       this.initialWorker = {
         name: this.selectedWorker.name,
@@ -229,6 +256,32 @@ export default {
         }
         location.reload();
       }
+    },
+    // Update wage methods
+    showUpdateWageModal() {
+      this.$refs.updateWageModalRef.show();
+    },
+    hideUpdateWageModal() {
+      this.$refs.updateWageModalRef.hide();
+    },
+    async handleSubmitUpdateWage(evt) {
+      evt.preventDefault();
+
+      if (!!this.updateWageModal.date && !!this.updateWageModal.wage) {
+        try {
+          await api.workers.updateWage(
+            this.selectedWorker.id, this.updateWageModal.date, this.updateWageModal.wage
+          )
+          this.onGenerateList();
+        } catch (err) {
+          alert('Update failed', err);
+          return;
+        }
+        this.hideUpdateWageModal();
+      } else {
+        alert('Missing data');
+      }
+      
     },
   },
   computed: {

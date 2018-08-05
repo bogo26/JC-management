@@ -17,6 +17,7 @@ export default function getConfig() {
 
       API_UPDATE_WORKER: '/updateWorker.php',
       API_UPDATE_JOB: '/updateJob.php',
+      API_UPDATE_WAGE_WORKER: '/updateRetroactivelyWages.php',
     };
   }
   return {
@@ -36,5 +37,6 @@ export default function getConfig() {
 
     API_UPDATE_WORKER: '/updateWorker.php',
     API_UPDATE_JOB: '/updateJob.php',
+    API_UPDATE_WAGE_WORKER: '/updateRetroactivelyWages.php',
   };
 }

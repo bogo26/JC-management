@@ -29,6 +29,11 @@ export default {
         id, name, wage,
       });
     },
+    updateWage(idWorker, startDate, wage) {
+      return api.post(`${config.API_UPDATE_WAGE_WORKER}`, {
+        idWorker, startDate, wage,
+      });
+    },
   },
   jobs: {
     async get() {
