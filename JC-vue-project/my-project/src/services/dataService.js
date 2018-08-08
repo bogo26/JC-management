@@ -24,9 +24,9 @@ export default {
         id,
       });
     },
-    update(id, name, wage) {
+    update(id, name, wage, currentJobId) {
       return api.post(`${config.API_UPDATE_WORKER}`, {
-        id, name, wage,
+        id, name, wage, currentJobId,
       });
     },
     updateWage(idWorker, startDate, wage) {

@@ -4,7 +4,7 @@
       <span class="form-header">{{ selectedWorker.id }} - {{ selectedWorker.name }} </span>
       </div>
     <div class="row">
-      <span class="form-sub-header">Hourly wage: £{{ selectedWorker.wage }} </span>
+      <span class="form-sub-header">Hourly wage: £{{ selectedWorker.wage }} - {{ selectedWorkerCurrentJob }} </span>
     </div>
     <div class="row mt-3">
       <b-button class="edit-btn" @click="showEditModal" variant="success">Edit</b-button>
@@ -74,6 +74,13 @@
         <input v-model="selectedWorker.name" type="text" class="form-control" id="editWorkerName">
       </div>
 
+      <!-- Worker current job -->
+      <div class="form-group col-12">
+        <label>Select current site</label>
+        <ModelSelect v-model="selectedWorker.currentJobId" :options="editWorkerJobsList">
+        </ModelSelect>
+      </div>
+
       <!-- Worker wage -->
       <div class="form-group col-12">
           <label for="editWorkerWage">Wage</label>
@@ -111,6 +118,7 @@
 import InsertEntry from '@/components/InsertEntry.vue';
 import WagesTable from '@/components/WagesTable.vue';
 import { Money } from 'v-money';
+import { ModelSelect } from 'vue-search-select';
 
 import api from '../services/dataService';
 import {
@@ -145,6 +153,7 @@ export default {
     InsertEntry,
     WagesTable,
     Money,
+    ModelSelect,
   },
   props: {
     selectedWorker: {
@@ -214,6 +223,7 @@ export default {
       this.initialWorker = {
         name: this.selectedWorker.name,
         wage: this.selectedWorker.wage,
+        currentJobId: this.selectedWorker.currentJobId,
       };
       this.$refs.editWorkerModalRef.show();
     },
@@ -221,6 +231,7 @@ export default {
       // revert changes if the update was not submitted
       this.selectedWorker.name = this.initialWorker.name;
       this.selectedWorker.wage = this.initialWorker.wage;
+      this.selectedWorker.currentJobId = this.initialWorker.currentJobId;
       this.$refs.editWorkerModalRef.hide();
     },
     async handleSubmitEditWorker(evt) {
@@ -232,10 +243,12 @@ export default {
             this.selectedWorker.id,
             this.selectedWorker.name,
             this.selectedWorker.wage,
+            this.selectedWorker.currentJobId,
           );
           // confirm changes after submit
           this.initialWorker.name = this.selectedWorker.name;
           this.initialWorker.wage = this.selectedWorker.wage;
+          this.initialWorker.currentJobId = this.selectedWorker.currentJobId;
         } catch (err) {
           alert('Update failed', err);
           return;
@@ -293,6 +306,20 @@ export default {
         };
       });
     },
+    editWorkerJobsList() {
+      let list = this.jobs.map((job) => {
+        return {
+          value: job.id,
+          text: job.location,
+        };
+      });
+      list.unshift({value: '0', text: 'Not active'});
+      return list;
+    },
+    selectedWorkerCurrentJob() {
+      let matchedJob = this.jobs.find((job) => job.id === this.selectedWorker.currentJobId)
+      return matchedJob && matchedJob.location || 'No current job';
+    }
   },
 };
 </script>
