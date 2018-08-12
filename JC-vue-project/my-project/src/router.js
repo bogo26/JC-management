@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Workers from './views/Workers.vue';
 import Jobs from './views/Jobs.vue';
 import Wages from './views/Wages.vue';
+import dailyRaport from './views/DailyRaport.vue';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/wages',
       name: 'wages',
       component: Wages,
+    },
+    {
+      path: '/dailyRaport',
+      name: 'dailyRaport',
+      component: dailyRaport,
     },
   ],
 });

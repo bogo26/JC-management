@@ -1,6 +1,8 @@
 <template>
     <div>
       <div class="row col-12">
+        
+        <!-- Select date -->
         <div class="form-group col-2">
           <label for="entrytDate">Date:</label>
           <input v-model="entryDate" type="date" class="form-control" id="entrytDate">
