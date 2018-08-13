@@ -60,6 +60,13 @@ export default {
     },
   },
   wages: {
+    async getDaily(jobId, date) {
+      const { data } = await api.get(
+        `${config.API_GET_DAILY}?idJob=${jobId}&date=${date}`,
+      );
+
+      return data.daily;
+    },
     async get(workerId, jobId, startDate, endDate) {
       let wId;
       let jId;
@@ -115,7 +122,7 @@ export default {
     async get(startDate, endDate, jobId) {
       const { data } = await api.get(
         `${
-          config.API_GET_SALARY_REPORT
+          config.API_GET_SALARY_RAPORT
         }?startDate=${startDate}&endDate=${endDate}&jobId=${jobId}`,
       );
       return data.results;

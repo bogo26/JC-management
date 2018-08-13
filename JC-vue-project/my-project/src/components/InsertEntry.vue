@@ -44,7 +44,7 @@
 <script>
 import { Money } from 'v-money';
 import { ModelSelect } from 'vue-search-select';
-import { formatDate } from '../utils/formaters';
+import { formatDate, getMoneyConfig } from '../utils/formaters';
 
 export default {
   data() {
@@ -54,14 +54,7 @@ export default {
       entryHours: 8,
       entryWage: this.wage,
       entryDetails: '',
-      money: {
-        decimal: '.',
-        thousands: ',',
-        prefix: '£',
-        suffix: '',
-        precision: 2,
-        masked: false,
-      },
+      money: getMoneyConfig(),
     };
   },
   name: 'insert-entry',
