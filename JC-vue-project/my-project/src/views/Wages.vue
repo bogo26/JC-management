@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <b-table striped hover :items="items"></b-table>
+      <b-table small striped hover :items="items"></b-table>
   </div>
 </template>
 
@@ -69,6 +69,7 @@ export default {
           text: job.location,
         };
       });
+      this.raportJobsList = [{value: '0', text: 'All sites'}].concat(this.raportJobsList);
     },
   },
 };
