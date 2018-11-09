@@ -3,8 +3,7 @@
     <div id="nav">
       <router-link to="/">Workers</router-link> |
       <router-link to="/jobs">Jobs</router-link> |
-      <router-link to="/wages">Wages</router-link> |
-      <router-link to="/dailyRaport">Daily Raport</router-link>
+      <router-link to="/wages">Wages</router-link> 
     </div>
     <router-view/>
   </div>

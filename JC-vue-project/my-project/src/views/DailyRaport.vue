@@ -34,6 +34,11 @@
           <h3>Worker name</h3>
         </div>
 
+        <!-- job name -->
+        <div class="col-3">
+          <h3>Job name</h3>
+        </div>
+
         <!-- worker wage -->
         <div class="col-1">
           <h3>Wage</h3>
@@ -45,7 +50,7 @@
         </div>
 
         <!-- worker details -->
-        <div class="col-3">
+        <div class="col-2">
           <h3>Details</h3>
         </div>
       </div>
@@ -58,6 +63,11 @@
         <!-- worker name -->
         <div class="col-3">
           {{ item.idWorker }}
+        </div>
+
+        <!-- job name -->
+        <div class="col-3">
+          {{ item.idJob }}
         </div>
 
         <!-- worker wage -->
@@ -79,7 +89,7 @@
         </div>
 
         <!-- worker details -->
-        <div class="col-3">
+        <div class="col-2">
           <input 
             v-model="item.details"
             type="text"
@@ -121,6 +131,8 @@ export default {
   methods: {
     async onGenerateDayRaport() {
       let enteredWages = [];
+      this.raportList = [];
+
       try {
         enteredWages = await api.wages.getDaily(
           this.raportJob,
@@ -131,14 +143,18 @@ export default {
       }
 
       this.workers.forEach(worker => {
+
+        //find if a wage was set in that day for the worker
         let enteredWageForWorker = enteredWages.find(wage => wage.idWorker === worker.id);
+
         if (enteredWageForWorker) {
           enteredWageForWorker.isSubmitted = true;
           this.raportList.push(enteredWageForWorker);
-        } else {
+        } else if (!this.raportJob && worker.currentJobId != 0 || worker.currentJobId == this.raportJob) {
           this.raportList.push({
             isSubmitted: false,
             idWorker: worker.id,
+            idJob: worker.currentJobId,
             wage: worker.wage,
             details: '',
             hours: 8,

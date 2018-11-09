@@ -6,7 +6,7 @@ export default function getConfig() {
       API_GET_JOBS: '/getjobs',
       API_GET_WAGES: '/wages',
       API_GET_SALARY_RAPORT: '/getWorkersRaport.php',
-      API_GET_DAILY: '/wages',
+      API_GET_DAILY: '/dailyRaport',
 
       API_SET_WAGES: '/setWage.php',
       API_SET_JOB: '/setJob.php',

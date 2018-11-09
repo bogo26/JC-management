@@ -61,6 +61,12 @@ export default {
   },
   wages: {
     async getDaily(jobId, date) {
+      if (window.jcApp.isDev) {
+        const { data } = await api.get(
+          `${config.API_GET_DAILY}`,
+        );
+        return data;
+      }
       const { data } = await api.get(
         `${config.API_GET_DAILY}?idJob=${jobId}&date=${date}`,
       );
